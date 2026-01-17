@@ -1,7 +1,7 @@
 'use client';
 
 import { Box } from '@chakra-ui/react';
-import CompaniesTable from '@/components/CompaniesTable';
+import CompaniesTable from '@/components/CompaniesTable/CompaniesTable';
 
 export default function Home() {
   return (
