@@ -1,6 +1,10 @@
 'use client';
 
-import { TaxFiling } from '@/components/CompaniesTable/CompaniesTable';
+import {
+  formatCurrency,
+  formatDelta,
+  TaxFiling,
+} from '@/components/CompaniesTable/CompaniesTable';
 import {
   Box,
   Card,
@@ -9,7 +13,6 @@ import {
   Badge,
   Link,
   Table,
-  Flex,
   Heading,
   VStack,
   HStack,
@@ -31,69 +34,6 @@ interface CompanyTaxFilingsResponseSuccess {
     taxFilings: TaxFiling[];
   };
 }
-
-// Utility functions from CompaniesTable
-const formatCurrency = (value: number | null): string => {
-  if (value === null || value === undefined) return 'N/A';
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
-};
-
-const formatPercent = (value: number | null): string => {
-  if (value === null || value === undefined) return 'N/A';
-  return new Intl.NumberFormat('en-US', {
-    style: 'percent',
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  }).format(value / 100);
-};
-
-const formatDelta = (
-  amount: number | null,
-  percent: number | null,
-  isCurrency: boolean = true
-) => {
-  if (amount === null || percent === null) {
-    return <Text color="gray.500">N/A</Text>;
-  }
-
-  const isAmountPositive = amount !== null && amount > 0;
-  const isAmountNegative = amount !== null && amount < 0;
-  const isPercentPositive = percent !== null && percent > 0;
-  const isPercentNegative = percent !== null && percent < 0;
-
-  return (
-    <Box>
-      <Text
-        color={
-          isAmountPositive
-            ? 'green.500'
-            : isAmountNegative
-              ? 'red.500'
-              : 'gray.500'
-        }
-      >
-        {isCurrency ? formatCurrency(amount) : amount}
-      </Text>
-      <Text
-        fontSize="sm"
-        color={
-          isPercentPositive
-            ? 'green.500'
-            : isPercentNegative
-              ? 'red.500'
-              : 'gray.500'
-        }
-      >
-        ({formatPercent(percent)})
-      </Text>
-    </Box>
-  );
-};
 
 const CompanyPage = ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = use(params);

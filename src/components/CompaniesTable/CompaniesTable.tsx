@@ -73,7 +73,7 @@ const fetchCompanies = async (
 };
 
 // Format currency
-const formatCurrency = (amount: number | null): string => {
+export const formatCurrency = (amount: number | null): string => {
   if (amount === null) return 'N/A';
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -83,13 +83,13 @@ const formatCurrency = (amount: number | null): string => {
 };
 
 // Format percentage
-const formatPercent = (percent: number | null): string => {
+export const formatPercent = (percent: number | null): string => {
   if (percent === null) return 'N/A';
   return `${percent.toFixed(2)}%`;
 };
 
 // Format delta with color coding
-const formatDelta = (
+export const formatDelta = (
   amount: number | null,
   percent: number | null,
   isCurrency: boolean = true
