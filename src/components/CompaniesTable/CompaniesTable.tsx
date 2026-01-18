@@ -232,7 +232,9 @@ export default function CompaniesTable() {
               {data.data.taxFilings.map((filing: TaxFiling) => (
                 <Table.Row key={filing.id}>
                   <Table.Cell maxW="200px" textAlign="end">
-                    <Text fontWeight="medium">{filing.businessName}</Text>
+                    <Link href={`/companies/${filing.ein}`} color="blue.500">
+                      <Text fontWeight="medium">{filing.businessName}</Text>
+                    </Link>
                     {filing.missionDescription && (
                       <Text fontSize="xs" color="gray.500">
                         {filing.missionDescription}
