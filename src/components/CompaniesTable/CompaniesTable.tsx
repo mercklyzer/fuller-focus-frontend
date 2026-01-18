@@ -16,7 +16,7 @@ import {
 import { Pagination } from './Pagination';
 
 // Type definitions based on the provided schema
-interface TaxFiling {
+export interface TaxFiling {
   id: number;
   ein: string;
   returnType: string;
@@ -229,7 +229,7 @@ export default function CompaniesTable() {
           )}
           {!!data?.data?.taxFilings?.length && !isFetching && (
             <Table.Body>
-              {data.data.taxFilings.map((filing) => (
+              {data.data.taxFilings.map((filing: TaxFiling) => (
                 <Table.Row key={filing.id}>
                   <Table.Cell maxW="200px" textAlign="end">
                     <Text fontWeight="medium">{filing.businessName}</Text>
