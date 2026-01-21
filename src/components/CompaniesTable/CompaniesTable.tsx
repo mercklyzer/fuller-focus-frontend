@@ -1,7 +1,8 @@
 'use client';
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+// import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Box,
   Table,
@@ -129,8 +130,12 @@ export const formatDelta = (
 };
 
 export default function CompaniesTable() {
-  const [businessNameFilter, setBusinessNameFilter] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Read from URL
+  const businessNameFilter = searchParams.get('q') || '';
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
 
   const { data, isFetching, error, isError } = useQuery<CompaniesResponse>({
     queryKey: ['companies', currentPage, businessNameFilter],
@@ -141,9 +146,17 @@ export default function CompaniesTable() {
   });
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    // Scroll to top of table when page changes
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', String(page));
+    router.replace(`?${params.toString()}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('q', e.target.value);
+    params.set('page', '1'); // Reset to first page on search
+    router.replace(`?${params.toString()}`);
   };
 
   return (
@@ -164,7 +177,7 @@ export default function CompaniesTable() {
           <Input
             placeholder="Enter business name"
             value={businessNameFilter}
-            onChange={(e) => setBusinessNameFilter(e.target.value)}
+            onChange={handleSearchChange}
           />
           {data && (
             <Box>
